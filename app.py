@@ -52,11 +52,16 @@ def precip():
     return jsonify(prcp_1yr)
 
 # Return a JSON list of stations from the dataset.
-# @app.route("/api/v1.0/stations")
-# def stations():
-#     session = Session(engine)
-#     query_stations=session.query(Station.station, Station.name).all()
-#     session.close()
+@app.route("/api/v1.0/stations")
+def stations():
+    session = Session(engine)
+    query_stations=session.query(Station.name).all()
+    session.close()
+    all_stations = list(np.ravel(query_stations))
+    return jsonify(all_stations)
+
+
+
 
 
 
