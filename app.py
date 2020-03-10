@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, func
 
 from flask import Flask, jsonify
 
-engine = create_engine("sqlite:///Resources/hawaii.sqlite")
+engine = create_engine("sqlite:///hawaii.sqlite")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -60,7 +60,8 @@ def stations():
     all_stations = list(np.ravel(query_stations))
     return jsonify(all_stations)
 
-
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 
