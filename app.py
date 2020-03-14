@@ -78,11 +78,23 @@ def tobs():
 # @app.route ("/api/v1.0/<start>")
 
 # When given the start and the end date, calculate the TMIN, TAVG, and TMAX for dates between the start and end date inclusive.
-# @app.route ("/api/v1.0/<start>/<end>")
-# def start_end():
-# temp_minavgmax = session.query(Measurement.date, func.min(Measurement.tobs), func.avg(Measurement.tobs),func.max(Measurement.tobs)),\
-#     .filter()
-# date
+@app.route ("/api/v1.0/<start>/<end>")
+def start_end(start, end):
+    session = Session(engine)
+    temp_minavgmax = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs),func.max(Measurement.tobs)).\
+        filter(Measurement.date >= start).filter(Measurement.date <= end).all()
+    session.close
+    temp_list = []
+    for Measurement.date in temp_minavgmax:
+        temp_dict = {}
+        temp_dict["Start Date"] = start
+        temp_dict["End Date"] = end
+        # temp_dict["TMIN"] = temp_minavgmax[0]
+        # temp_dict["TAVG"] = temp_minavgmax[1]
+        # temp_dict["TMAZ"] = temp_minavgmax[2]
+        temp_list.append(temp_dict)
+
+    return jsonify(temp_list)
 
 if __name__ == '__main__':
     app.run(debug=True)
